@@ -104,7 +104,7 @@ if __name__ == "__main__":
     )
     args = parser.parse_args()
 
-    n_state = args.n
+    n_state = args.n + 1
     print(f"Attempting to find the n={n_state} eigenstate.")
     model = PINN(n=n_state)
     model.to(device)
