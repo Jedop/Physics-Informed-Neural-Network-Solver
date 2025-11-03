@@ -50,7 +50,7 @@ class PINN(nn.Module):
     def forward(self, x):
         logits = self.linear_stack(x)
         psi_x = logits
-        L = -float(x[0])
+        L = -float(x[0].detach())
 
         return x * (x * x - L**2) * psi_x
 
@@ -79,7 +79,11 @@ class PINN(nn.Module):
         )
         integral_psi_squared = torch.trapezoid(y=psi_val.squeeze() ** 2, x=x.squeeze())
         normalization_loss = (integral_psi_squared - 1.0) ** 2
-        self.test = (float(residual), float(boundary_loss), float(normalization_loss))
+        self.test = (
+            float(residual.detach()),
+            float(boundary_loss.detach()),
+            float(normalization_loss.detach()),
+        )
         return residual + normalization_loss
 
 
@@ -106,7 +110,7 @@ for epoch in range(epochs):
     loss.backward()
     optimizer.step()
     optimizer_E.step()
-    scheduler_E.step(loss)
+    scheduler_E.step(loss.item())
     optimizer.zero_grad()
     optimizer_E.zero_grad()
 
@@ -114,9 +118,9 @@ for epoch in range(epochs):
         best_loss = loss.item() / lambdaphy
         best_model_state = {k: v.clone() for k, v in model.state_dict().items()}
 
-    if epoch % 100 == 0 and epoch != 0:
-        lambdaphy += 5
-        print(model.test, float(model.E))
+    if epoch % 100 == 0:
+        lambdaphy += 5 if epoch != 0 else 0
+        print(model.test, float(model.E.detach()))
         print(f"Epoch {epoch}: Loss = {loss.item() / lambdaphy}")
 
 
@@ -132,10 +136,8 @@ with torch.no_grad():
     psi_pred = model(x).detach().cpu().numpy()
     E_learned = model.E.item()
 
-# analytical solution
 x_np = x.detach().cpu().numpy().flatten()
 psi_true = -harmonic_oscillator_wavefunction(1, x_np)
-# normalize both for fair comparison
 psi_pred /= np.max(np.abs(psi_pred))
 psi_true /= np.max(np.abs(psi_true))
 psi_pred = psi_pred.squeeze()
