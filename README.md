@@ -10,7 +10,7 @@ This project is an implementation of Physics-Informed Neural Networks (PINNs) in
 
 -   **Versatile PINN Application:** The core PINN architecture and physics-informed loss function were successfully adapted to solve for the eigenstates in multiple distinct quantum systems (Infinite Square Well and Harmonic Oscillator).
 -   **Trainable Energy Levels:** The model treats the energy `E` as a trainable parameter, allowing it to discover the quantized energy eigenvalues of a system.
--   **High-Accuracy Solutions:** Achieves **< 0.2% error** for the ground and excited state wavefunctions and energy eigenvalues for implemented systems. For the ground state energy level of the infinite square well, it achieves a remarkable 2.4 x $10^{-7}$
+-   **High-Accuracy Solutions:** Achieves **< 0.2% error** for the ground and excited state wavefunctions and energy eigenvalues for implemented systems. For the ground state energy level of the infinite square well, it achieves a remarkable 2.4 x $10^{-7}$% error.
 
 ## Implemented Systems & Results
 
