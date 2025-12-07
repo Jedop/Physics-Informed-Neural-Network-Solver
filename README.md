@@ -1,4 +1,4 @@
-# Physics-Informed Neural Networks for 1D Quantum Systems
+# Physics-Informed Neural Networks for Quantum Systems
 
 **Status:** Actively in Progress
 
