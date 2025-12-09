@@ -8,30 +8,14 @@ This project is an implementation of Physics-Informed Neural Networks (PINNs) in
 
 ## Key Features
 
+-   **3D Cartesian Solver:**: Successfully solves the Hydrogen atom without reducing it to a 1D radial problem, capturing angular dependencies and symmetries.
 -   **Versatile PINN Application:** The core PINN architecture and physics-informed loss function were successfully adapted to solve for the eigenstates in multiple distinct quantum systems (Infinite Square Well and Harmonic Oscillator).
 -   **Trainable Energy Levels:** The model treats the energy `E` as a trainable parameter, allowing it to discover the quantized energy eigenvalues of a system.
 -   **High-Accuracy Solutions:** Achieves **< 0.2% error** for the ground and excited state wavefunctions and energy eigenvalues for implemented systems. For the ground state energy level of the infinite square well, it achieves a remarkable 2.4 x $10^{-7}$% error.
 
 ## Implemented Systems & Results
 
-### 1. The Infinite Square Well
-
-The model successfully learns the quantized energy levels and wavefunctions for the first three principal quantum numbers.
-
-|n = 1|n = 2|n = 3|
-|-----|-----|-----|
-|![Infinite Square Well n=1](plots/Infinite%20Square%20well%20n%20=%201.png)|![Infinite Square Well n=2](plots/Infinite%20Square%20well%20n%20=%202.png)|![Infinite Square Well n=3](plots/Infinite%20Square%20well%20n%20=%203.png)|
-
-
-### 2. The Quantum Harmonic Oscillator (SHO)
-
-The model correctly discovers the evenly-spaced energy spectrum and the Gaussian-based wavefunctions for the ground and first excited states.
-
-|n = 0|n = 1|
-|-----|-----|
-|![Infinite Square Well n=1](plots/Harmonic%20oscillator%20n%20=%200.png)|![Infinite Square Well n=2](plots/Harmonic%20oscillator%20n%20=%201.png)|
-
-### 3. The Hydrogen Atom
+### 1. The Hydrogen Atom
 
 The model solves the full **3-Dimensional Time-Independent Schrödinger Equation** in Cartesian coordinates $(x, y, z)$. The radial simplification is NOT used in this model, instead it solves the entire 3D equation, in cartesian coordinates.
 
@@ -46,7 +30,23 @@ The model solves the full **3-Dimensional Time-Independent Schrödinger Equation
 | **3D Isosurface** <br> *(Plotly)* | ![1s Iso](plots/Hydrogen%20Atom%20n%20=%201%203D%20Modified.png) | ![2p Iso](plots/Hydrogen%20Atom%20n%20=%202%203D%20Modified.png) | ![4d Iso](plots/Hydrogen%20Atom%20n%20=%204%203D%20Modified.png) |
 | **2D Cross-Section** <br> *(Heatmap)* | ![1s Heatmap](plots/Hydrogen%20Atom%20n%20=%201%20Heatmap.png) | ![2p Heatmap](plots/Hydrogen%20Atom%20n%20=%202%20Heatmap.png) | ![4d Heatmap](plots/Hydrogen%20Atom%20n%20=%204%20Heatmap.png) |
 
-## How It Works
+### 2. The Infinite Square Well
+
+The model successfully learns the quantized energy levels and wavefunctions for the first three principal quantum numbers.
+
+|n = 1|n = 2|n = 3|
+|-----|-----|-----|
+|![Infinite Square Well n=1](plots/Infinite%20Square%20well%20n%20=%201.png)|![Infinite Square Well n=2](plots/Infinite%20Square%20well%20n%20=%202.png)|![Infinite Square Well n=3](plots/Infinite%20Square%20well%20n%20=%203.png)|
+
+### 3. The Quantum Harmonic Oscillator (SHO)
+
+The model correctly discovers the evenly-spaced energy spectrum and the Gaussian-based wavefunctions for the ground and first excited states.
+
+|n = 0|n = 1|
+|-----|-----|
+|![Infinite Square Well n=1](plots/Harmonic%20oscillator%20n%20=%200.png)|![Infinite Square Well n=2](plots/Harmonic%20oscillator%20n%20=%201.png)|
+
+## Methodology and Challenges
 
 The total loss function is a combination of two components:
 
