@@ -43,7 +43,7 @@ The model solves the full **3-Dimensional Time-Independent Schrödinger Equation
 | Feature | **Ground State ($1s$)** <br> $E \approx -0.5$ | **First Excited State ($2p_z$)** <br> $E \approx -0.125$ | **High Energy State ($4d_{xz}$)োয়া** <br> $E \approx -0.033$ |
 | :---: | :---: | :---: | :---: |
 | **Volumetric Cloud** <br> *(Monte Carlo)* | ![1s Cloud](plots/Hydrogen%20Atom%20n%20=%201%20Cloud.png) | ![2p Cloud](plots/Hydrogen%20Atom%20n%20=%202%20Cloud.png) | ![4d Cloud](plots/Hydrogen%20Atom%20n%20=%204%20Cloud.png) |
-| **3D Isosurface** <br> *(PyVista)* | ![1s Iso](plots/Hydrogen%20Atom%20n%20=%201%203D%Modified.png) | ![2p Iso](plots/Hydrogen%20Atom%20n%20=%202%203D%Modified.png) | ![4d Iso](plots/Hydrogen%20Atom%20n%20=%204%203D%Modified.png) |
+| **3D Isosurface** <br> *(PyVista)* | ![1s Iso](plots/Hydrogen%20Atom%20n%20=%201%203D%20Modified.png) | ![2p Iso](plots/Hydrogen%20Atom%20n%20=%202%203D%20Modified.png) | ![4d Iso](plots/Hydrogen%20Atom%20n%20=%204%203D%20Modified.png) |
 | **2D Cross-Section** <br> *(Heatmap)* | ![1s Heatmap](plots/Hydrogen%20Atom%20n%20=%201%20Heatmap.png) | ![2p Heatmap](plots/Hydrogen%20Atom%20n%20=%202%20Heatmap.png) | ![4d Heatmap](plots/Hydrogen%20Atom%20n%20=%204%20Heatmap.png) |
 
 ## How It Works
