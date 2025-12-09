@@ -51,9 +51,9 @@ The model correctly discovers the evenly-spaced energy spectrum and the Gaussian
 ### The Architecture: Physics-Informed Ansatz
 Instead of using a "Black Box" neural network, this project employs a **Parametric Ansatz** approach. The wavefunction is modeled as:
 
-$$ \psi(x) = \text{NN}(x) \times A(x) $$
+$$ \psi(x) = \text{NN}(\mathbf{r}) \times A(\mathbf{r}) $$
 
-Where $\text{NN}(x)$ is the neural network output and $A(x)$ is a function that enforces boundary conditions.
+Where $\text{NN}(\mathbf{r})$ is the neural network output, $A(\mathbf{r})$ is a function that enforces boundary conditions, and $\mathbf{r}$ is the position vector in cartesian Coordinates.
 
 The total loss function is a combination of two components:
 
