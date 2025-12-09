@@ -48,21 +48,27 @@ The model correctly discovers the evenly-spaced energy spectrum and the Gaussian
 
 ## Methodology and Challenges
 
+### The Architecture: Physics-Informed Ansatz
+Instead of using a "Black Box" neural network, this project employs a **Parametric Ansatz** approach. The wavefunction is modeled as:
+
+$$ \psi(x) = \text{NN}(x) \times A(x) $$
+
+Where $\text{NN}(x)$ is the neural network output and $A(x)$ is a function that enforces boundary conditions.
+
 The total loss function is a combination of two components:
 
 1.  **Physics Loss (`L_residual`):** This is the core of the PINN. It evaluates the Schrödinger equation `(Hψ - Eψ)` at various points in the domain. The loss is the mean squared error of this expression, driving it towards zero and thus forcing the network's output `ψ` to be a valid solution.
 2.  **Normalization Loss (`L_normalization`):** This loss enforces the physical requirement that the wavefunction be normalizable. It penalizes the model if the integral of the probability density $`|ψ|^2`$ over the domain deviates from 1 (i.e., `<ψ|ψ> = 1`).
 
-`Total Loss = λ_phy * (L_residual + L_normalization)`
+$$ Total Loss = λ_phy * (L_residual + L_normalization) $$
 
----
+### The solution to the Hydrogen Singularity
 
-The boundary conditions are enforced in the forward pass, by using a sort of trial solution based on the nodes of the given eigenstate.
+The Potential in the Hydrogen Atom is inversely proportional to $r$, thus introducing a $-1/r$ term in the loss function which blows up at the origin $(r \to 0)$. This causes standard PINN approaches to explode or converge to trivial equations ($\psi = 0$).
 
-For example,
-1. Energy level n = 1 of the infinite square well => nodes are at 0, and a. Trial solution is x(a - x)
-2. Energy level n = 2 of the infinite square well => nodes are at 0, a, and a/2. Trial solutiion is x(a-x)(a/2 - x)
-3. Energy level n = 1 of the harmonic oscillator => nodes are at -inf, +inf, and 0. Given that the input space is finite, let L be the boundary of the input space. Then, trial solution is x(x^2 - L^2)
+1.  **The Pure MLP method:** I initially tried a standard MLP using Cartesian Coordinates, which failed to capture the radial symmetry, and also tended to go to 0 at the origin to avoid blowing up. This method seems to be an open problem in research, so I moved on(for now).
+2.  **The Solution (Learnable decay):** I decided to introduce the boundary conditions $(\psi \neq 0$ at $r \= 0)$ and $(\psi \to 0 as r \to \infty)$ as a trial solution instead of loss terms. This is exactly what I have done for the other systems as well. The ansatz was: $\psi(r) \propto \text{NN}(x, y, z) \cdot e^{-|\alpha|r}$. This acts as a soft boundary condition towards $\infty$ and a hard boundary condition at 0, forcing the model to find a wavefunction that is non-zero at $r=0$.
+3.  **Spectral Targetting:** This approach yielded an emergent feature: Spectral Targeting via Initialization. By initializing $\alpha$ to different values(provided the appropriate ansatz), the model is biased towards specific local minima, thus allowing us to effectively target higher order excited states that would otherwise be lost in the optimizing process. E.g. the results for n = 4 is actually obtained by simply changing the initialization of alpha in the n = 2 case from ~0.8 to ~0.2.
 
 ## Installation and Usage
 1. Clone the repository:
@@ -86,13 +92,12 @@ For example,
 
 ## Points to Note
 
-The energy levels for the infinite square well start at 1, whereas for the harmonic oscillator it starts at 0. This is due to a difference in the mathematical formulations, and to stay true to the physics, I have decided to go with the conventions established instead of standardizing the energy levels.
-
+- The energy levels for the infinite square well start at 1, whereas for the harmonic oscillator it starts at 0. This is due to a difference in the mathematical formulations, and to stay true to the physics, I have decided to go with the conventions established instead of standardizing the energy levels.
+- The Hydrogen Atom Solver is not built for the n = 3 case. To do so, you would have to update it with the appropriate boundary conditions, and tune the hyperparameters accordingly.
 ## Tech Stack
 
--   Python
--   PyTorch
--   NumPy
--   Matplotlib
+-   **Core Framework:** PyTorch
+-   **Mathematics:** NumPy
+-   **Visualization:** Matplotlib (2D), Plotly (3D Volumetric Rendering)
 
 ---
