@@ -1,7 +1,5 @@
 # Physics-Informed Neural Networks for Quantum Systems
 
-## Project Overview
-
 This project is an implementation of Physics-Informed Neural Networks (PINNs) in PyTorch to solve the time-independent Schrödinger equation for quantum mechanical systems. Unlike traditional neural networks(like Finite Difference or Finite Element), a PINN's loss function is augmented with a term that enforces the validity of the underlying physical laws (in this case, the Schrödinger equation), allowing it to solve complex differential equations. In this project, the concept is taken further, and only Physical laws are used.
 
 ## Key Features
