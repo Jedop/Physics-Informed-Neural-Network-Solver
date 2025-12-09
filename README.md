@@ -1,10 +1,8 @@
 # Physics-Informed Neural Networks for Quantum Systems
 
-**Status:** Actively in Progress
-
 ## Project Overview
 
-This project is an implementation of Physics-Informed Neural Networks (PINNs) in PyTorch to solve the 1D time-independent Schrödinger equation for classic quantum mechanical systems. Unlike traditional neural networks that rely purely on data, a PINN's loss function is augmented with a term that enforces the validity of the underlying physical laws (in this case, the Schrödinger equation), allowing it to solve complex differential equations. In this project, the concept is taken further, and only Physical laws are used.
+This project is an implementation of Physics-Informed Neural Networks (PINNs) in PyTorch to solve the time-independent Schrödinger equation for quantum mechanical systems. Unlike traditional neural networks(like Finite Difference or Finite Element), a PINN's loss function is augmented with a term that enforces the validity of the underlying physical laws (in this case, the Schrödinger equation), allowing it to solve complex differential equations. In this project, the concept is taken further, and only Physical laws are used.
 
 ## Key Features
 
@@ -60,14 +58,18 @@ The total loss function is a combination of two components:
 1.  **Physics Loss (`L_residual`):** This is the core of the PINN. It evaluates the Schrödinger equation `(Hψ - Eψ)` at various points in the domain. The loss is the mean squared error of this expression, driving it towards zero and thus forcing the network's output `ψ` to be a valid solution.
 2.  **Normalization Loss (`L_normalization`):** This loss enforces the physical requirement that the wavefunction be normalizable. It penalizes the model if the integral of the probability density $`|ψ|^2`$ over the domain deviates from 1 (i.e., `<ψ|ψ> = 1`).
 
-$$ Total Loss = λ_phy * (L_residual + L_normalization) $$
+$$
+L_{\text{total}}
+= \lambda_{\text{phy}}
+\left( L_{\text{residual}} + L_{\text{normalization}} \right)
+$$
 
 ### The solution to the Hydrogen Singularity
 
 The Potential in the Hydrogen Atom is inversely proportional to $r$, thus introducing a $-1/r$ term in the loss function which blows up at the origin $(r \to 0)$. This causes standard PINN approaches to explode or converge to trivial equations ($\psi = 0$).
 
 1.  **The Pure MLP method:** I initially tried a standard MLP using Cartesian Coordinates, which failed to capture the radial symmetry, and also tended to go to 0 at the origin to avoid blowing up. This method seems to be an open problem in research, so I moved on(for now).
-2.  **The Solution (Learnable decay):** I decided to introduce the boundary conditions $(\psi \neq 0$ at $r \= 0)$ and $(\psi \to 0 as r \to \infty)$ as a trial solution instead of loss terms. This is exactly what I have done for the other systems as well. The ansatz was: $\psi(r) \propto \text{NN}(x, y, z) \cdot e^{-|\alpha|r}$. This acts as a soft boundary condition towards $\infty$ and a hard boundary condition at 0, forcing the model to find a wavefunction that is non-zero at $r=0$.
+2.  **The Solution (Learnable decay):** I decided to introduce the boundary conditions $(\psi \neq 0$ at $r \= 0)$ and $(\psi \to 0$ as $r \to \infty)$ as a trial solution instead of loss terms. This is exactly what I have done for the other systems as well. The ansatz was: $\psi(r) \propto \text{NN}(x, y, z) \cdot e^{-|\alpha|r}$. This acts as a soft boundary condition towards $\infty$ and a hard boundary condition at 0, forcing the model to find a wavefunction that is non-zero at $r=0$.
 3.  **Spectral Targetting:** This approach yielded an emergent feature: Spectral Targeting via Initialization. By initializing $\alpha$ to different values(provided the appropriate ansatz), the model is biased towards specific local minima, thus allowing us to effectively target higher order excited states that would otherwise be lost in the optimizing process. E.g. the results for n = 4 is actually obtained by simply changing the initialization of alpha in the n = 2 case from ~0.8 to ~0.2.
 
 ## Installation and Usage
