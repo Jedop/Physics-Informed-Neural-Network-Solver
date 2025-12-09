@@ -31,8 +31,20 @@ The model correctly discovers the evenly-spaced energy spectrum and the Gaussian
 |-----|-----|
 |![Infinite Square Well n=1](plots/Harmonic%20oscillator%20n%20=%200.png)|![Infinite Square Well n=2](plots/Harmonic%20oscillator%20n%20=%201.png)|
 
-### 3. (In Progress) The Hydrogen Atom
-Work is currently underway to extend this framework to solve the radial Schrödinger equation for the Hydrogen atom.
+### 3. The Hydrogen Atom
+
+The model solves the full **3-Dimensional Time-Independent Schrödinger Equation** in Cartesian coordinates $(x, y, z)$. The radial simplification is NOT used in this model, instead it solves the entire 3D equation, in cartesian coordinates.
+
+**Key Achievements:**
+ *   **High Precision:** Achieved a Relative L2 Error of **0.008%** for the Ground State and **0.012%** for the First Excited State compared to analytical solutions.
+ *   **Spectral Targeting:** By adjusting the initialization of the learnable decay parameter $\alpha$, the network was guided to converge to specific energy levels ($n=2, n=4$).
+ *   **Symmetry Breaking:** The model successfully captured non-spherical symmetries, spontaneously generating the **dumbbell shape ($p$-orbital)** and **multi-lobed structures ($d$-orbital)** to satisfy orthogonality constraints.
+
+| Feature | **Ground State ($1s$)** <br> $E \approx -0.5$ | **First Excited State ($2p_z$)** <br> $E \approx -0.125$ | **High Energy State ($4d_{xz}$)োয়া** <br> $E \approx -0.033$ |
+| :---: | :---: | :---: | :---: |
+| **Volumetric Cloud** <br> *(Monte Carlo)* | ![1s Cloud](plots/Hydrogen%20Atom%20n%20=%201%20Cloud.png) | ![2p Cloud](plots/Hydrogen%20Atom%20n%20=%202%20Cloud.png) | ![4d Cloud](plots/Hydrogen%20Atom%20n%20=%204%20Cloud.png) |
+| **3D Isosurface** <br> *(PyVista)* | ![1s Iso](plots/Hydrogen%20Atom%20n%20=%201%203D%Modified.png) | ![2p Iso](plots/Hydrogen%20Atom%20n%20=%202%203D%Modified.png) | ![4d Iso](plots/Hydrogen%20Atom%20n%20=%204%203D%Modified.png) |
+| **2D Cross-Section** <br> *(Heatmap)* | ![1s Heatmap](plots/Hydrogen%20Atom%20n%20=%201%20Heatmap.png) | ![2p Heatmap](plots/Hydrogen%20Atom%20n%20=%202%20Heatmap.png) | ![4d Heatmap](plots/Hydrogen%20Atom%20n%20=%204%20Heatmap.png) |
 
 ## How It Works
 
