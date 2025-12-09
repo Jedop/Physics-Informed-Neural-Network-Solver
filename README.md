@@ -83,6 +83,12 @@ The Potential in the Hydrogen Atom is inversely proportional to $r$, thus introd
 3. Run the script at the required energy level:
    E.g.
    ```sh
+   # Solve 3D Hydrogen Atom (Ground State)
+    python hydrogen_atom.py --n 1
+
+    # Solve 3D Hydrogen Atom (First Excited State)
+    python hydrogen_atom.py --n 2
+   
     # Example for the Harmonic Oscillator ground state (n=0)
     python harmonic_oscillator.py --n 0
 
